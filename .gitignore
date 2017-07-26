@@ -1,0 +1,10 @@
+### Gradle template
+.gradle
+build/
+
+### Intellij
+.idea
+
+### DO NOT IGNORE...
+### Gradle Wrapper jar
+!gradle-wrapper.jar
