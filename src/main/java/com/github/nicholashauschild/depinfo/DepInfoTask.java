@@ -57,14 +57,16 @@ public class DepInfoTask extends DefaultTask {
   }
 
   private void populateFile() {
-    final Iterable<String> lines = dependentArtifacts.stream().map(da -> {
-      return new StringBuilder()
-              .append(da.getName()).append('=')
-              .append(da.getArtifactGroup()).append('/')
-              .append(da.getArtifactName()).append('/')
-              .append(da.getArtifactVersion())
-              .toString();
-    }).collect(Collectors.toSet());
+    final Iterable<String> lines = dependentArtifacts
+            .stream()
+            .map(da -> {
+                return new StringBuilder()
+                        .append(da.getName()).append('=')
+                        .append(da.getArtifactGroup()).append('/')
+                        .append(da.getArtifactName()).append('/')
+                        .append(da.getArtifactVersion())
+                        .toString();
+            }).collect(Collectors.toSet());
 
     Path file = Paths.get(dependencyInfoFile.toURI());
 

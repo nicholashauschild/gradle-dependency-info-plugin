@@ -6,21 +6,20 @@ buildscript {
     }
 
     dependencies {
-//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.gradle.publish:plugin-publish-plugin:0.9.7'
     }
 }
 
 plugins {
-//    id 'org.jetbrains.kotlin.jvm' version '1.1.3-2'
+    id 'org.jetbrains.kotlin.jvm' version '1.1.3-2'
     id "com.gradle.plugin-publish" version "0.9.7"
 }
 
 apply plugin: 'maven'
-apply plugin: 'java'
 
 group = 'com.github.nicholashauschild'
-version = '0.1.0-SNAPSHOT'
+version = '0.2.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -28,10 +27,10 @@ repositories {
 
 dependencies {
     compile gradleApi()
-//    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-//    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
-//    testCompile 'org.jetbrains.spek:spek-api:1.1.2'
+    testCompile 'org.jetbrains.spek:spek-api:1.1.2'
 }
 
 //jar {
@@ -64,21 +63,21 @@ task wrapper(type: Wrapper) {
     gradleVersion = '4.0.1'
 }
 
-//compileKotlin {
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//    }
-//}
-//
-//compileTestKotlin {
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//    }
-//}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
 
 pluginBundle {
-    website = 'https://github.com/nicholashauschild'
-    vcsUrl = 'https://github.com/nicholashauschild'
+    website = 'https://github.com/nicholashauschild/gradle-dependency-info-plugin'
+    vcsUrl = 'https://github.com/nicholashauschild/gradle-dependency-info-plugin'
 
     plugins {
         plugin {

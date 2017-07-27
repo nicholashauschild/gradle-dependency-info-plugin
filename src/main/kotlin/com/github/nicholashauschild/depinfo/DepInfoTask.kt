@@ -4,17 +4,14 @@ import java.io.File
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.Task
-import org.gradle.api.tasks.TaskInputs
-import org.gradle.api.tasks.TaskOutputs
 import org.gradle.api.artifacts.ResolvedArtifact
 import org.gradle.api.plugins.JavaPlugin
-import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.gradle.language.jvm.tasks.ProcessResources
+import java.io.Serializable
 
 open class DepInfoTask : DefaultTask() {
-    var dependentArtifacts: Set<ResolvedArtifact>? = null
+    var dependentArtifacts: Set<Artifact> = setOf()
     var dependencyInfoFile: File? = null
 
     init {
@@ -25,7 +22,7 @@ open class DepInfoTask : DefaultTask() {
             // plug in to existing tasks if JavaPlugin is available
             if(project.plugins.hasPlugin(JavaPlugin::class.java)) {
                 dependsOn(JavaPlugin.COMPILE_JAVA_TASK_NAME)
-                getProcessResourcesTask()!!.dependsOn(TASK_NAME)
+                getProcessResourcesTask()!!.dependsOn(DEP_INFO_TASK_NAME)
             }
 
             // add inputs/outputs
@@ -33,7 +30,7 @@ open class DepInfoTask : DefaultTask() {
             //  - set of dependencies
             // outputs
             //  - generated file
-            dependentArtifacts = getDependencies(extension)
+            dependentArtifacts = getArtifacts(extension)
             dependencyInfoFile = getOutputFile(extension)
 
             getInputs().property("dependencies", dependentArtifacts)
@@ -51,16 +48,48 @@ open class DepInfoTask : DefaultTask() {
      */
 
     internal fun populateFile() {
-        dependentArtifacts!!.forEach {
-            dependencyInfoFile!!.appendText("$it.name=$it.moduleVersion.id.group/$it.moduleVersion.id.name/$it.moduleVersion.id.version\n")
+        dependencyInfoFile?.let { file ->
+
+            checkFile(file)
+
+            dependentArtifacts.forEach {
+                file.appendText("${it.name}=${it.artifactGroup}/${it.artifactName}/${it.artifactVersion}\n")
+            }
         }
+    }
+
+    internal fun checkFile(file: File) {
+        if(file.exists()) {
+            file.delete()
+        }
+
+        if(!file.parentFile.exists()) {
+            file.parentFile.mkdirs()
+        }
+
+        file.createNewFile()
     }
 
     /**
      * internal functions
      */
 
-    internal fun getDependencies(extension: DepInfoExtension): Set<ResolvedArtifact> {
+    internal fun getArtifacts(extension: DepInfoExtension): Set<Artifact> {
+        return getResolvedArtifacts(extension)
+                .asSequence()
+                .map {
+                    Artifact(name = it.name,
+                        artifactGroup = it.moduleVersion.id.group,
+                        artifactName = it.moduleVersion.id.name,
+                        artifactVersion = it.moduleVersion.id.version) }
+//                .filter {
+//
+//                    true
+//                }
+                .toHashSet()
+    }
+
+    internal fun getResolvedArtifacts(extension: DepInfoExtension): Set<ResolvedArtifact> {
         return project
             .configurations
             .getByName(extension.configuration)
@@ -90,3 +119,8 @@ open class DepInfoTask : DefaultTask() {
         return project.tasks.findByName(JavaPlugin.PROCESS_RESOURCES_TASK_NAME) as ProcessResources
     }
 }
+
+class Artifact(val name: String,
+               val artifactGroup: String,
+               val artifactName: String,
+               val artifactVersion: String) : Serializable
