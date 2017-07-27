@@ -44,7 +44,7 @@ open class DepInfoTask : DefaultTask() {
     }
 
     /**
-     *
+     * Runtime functions
      */
 
     internal fun populateFile() {
@@ -71,7 +71,7 @@ open class DepInfoTask : DefaultTask() {
     }
 
     /**
-     * internal functions
+     * task configuration functions
      */
 
     internal fun getArtifacts(extension: DepInfoExtension): Set<Artifact> {
@@ -82,10 +82,6 @@ open class DepInfoTask : DefaultTask() {
                         artifactGroup = it.moduleVersion.id.group,
                         artifactName = it.moduleVersion.id.name,
                         artifactVersion = it.moduleVersion.id.version) }
-//                .filter {
-//
-//                    true
-//                }
                 .toHashSet()
     }
 
