@@ -33,14 +33,6 @@ dependencies {
     testCompile 'org.jetbrains.spek:spek-api:1.1.2'
 }
 
-//jar {
-//    from {
-//        configurations.runtime.collect {
-//            it.isDirectory() ? it : zipTree(it)
-//        }
-//    }
-//}
-
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
