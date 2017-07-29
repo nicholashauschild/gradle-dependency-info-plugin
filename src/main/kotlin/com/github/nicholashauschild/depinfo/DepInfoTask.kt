@@ -53,7 +53,7 @@ open class DepInfoTask : DefaultTask() {
             checkFile(file)
 
             dependentArtifacts.forEach {
-                file.appendText("${it.name}=${it.artifactGroup}/${it.artifactName}/${it.artifactVersion}\n")
+                file.appendText("dependency.${it.name}=${it.artifactGroup}/${it.artifactName}/${it.artifactVersion}\n")
             }
         }
     }
