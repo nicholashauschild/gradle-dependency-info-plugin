@@ -21,8 +21,10 @@ apply plugin: 'maven-publish'
 group = 'com.github.nicholashauschild'
 version = '0.3.0-SNAPSHOT'
 
-def bintrayUsername = hasProperty("bintray.username") ? project.getProperty("bintray.username") : ""
-def bintrayApiKey = hasProperty("bintray.apikey") ? project.getProperty("bintray.apikey") : ""
+def bintrayUsername = hasProperty('bintray.username') ? project.getProperty('bintray.username') : ''
+def bintrayApiKey = hasProperty('bintray.apikey') ? project.getProperty('bintray.apikey') : ''
+def isSnapshot = version.endsWith('SNAPSHOT')
+def isRelease = !isSnapshot
 
 repositories {
     mavenCentral()
@@ -113,7 +115,15 @@ bintray {
     publications = ['plugin']
 
     pkg {
+        repo = 'maven'
+        name = 'gradle-dependency-info-plugin'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/nicholashauschild/gradle-dependency-info-plugin.git'
 
+        desc = 'Gradle plugin to include dependency information in generated jar'
+        labels = ['gradle', 'spring-boot', 'plugin', 'java']
+        websiteUrl = 'https://github.com/nicholashauschild/gradle-dependency-info-plugin'
+        issueTrackerUrl = 'https://github.com/nicholashauschild/gradle-dependency-info-plugin/issues'
     }
 }
 
