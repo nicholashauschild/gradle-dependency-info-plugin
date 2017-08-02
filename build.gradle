@@ -110,7 +110,7 @@ publishing {
 }
 
 artifactory {
-    contextUrl = 'https://oss.jfrog.com/artifactory'
+    contextUrl = 'https://oss.jfrog.org/artifactory'
     publish {
         repository {
             repoKey = 'oss-snapshot-local'
