@@ -6,13 +6,15 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.artifacts.ResolvedArtifact
 import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.gradle.language.jvm.tasks.ProcessResources
 import java.io.Serializable
 
 open class DepInfoTask : DefaultTask() {
-    var dependentArtifacts: Set<Artifact> = setOf()
-    var dependencyInfoFile: File? = null
+    @Input var dependentArtifacts: Set<Artifact> = setOf()
+    @OutputFile var dependencyInfoFile: File? = null
 
     init {
         project.afterEvaluate {
@@ -33,13 +35,12 @@ open class DepInfoTask : DefaultTask() {
             dependentArtifacts = getArtifacts(extension)
             dependencyInfoFile = getOutputFile(extension)
 
-            getInputs().property("dependencies", dependentArtifacts)
-            getOutputs().file(dependencyInfoFile)
+//            inputs.property("dependencies", dependentArtifacts)
+//            outputs.file(dependencyInfoFile)
         }
     }
 
-    @TaskAction
-    fun exec() {
+    @TaskAction fun exec() {
         populateFile()
     }
 
@@ -87,10 +88,10 @@ open class DepInfoTask : DefaultTask() {
 
     internal fun getResolvedArtifacts(extension: DepInfoExtension): Set<ResolvedArtifact> {
         return project
-            .configurations
-            .getByName(extension.configuration)
-            .resolvedConfiguration
-            .resolvedArtifacts
+                .configurations
+                .findByName(extension.configuration)
+                ?.resolvedConfiguration
+                ?.resolvedArtifacts ?: setOf()
     }
 
     internal fun getOutputFile(extension: DepInfoExtension): File {
@@ -112,7 +113,10 @@ open class DepInfoTask : DefaultTask() {
      */
 
     internal fun getProcessResourcesTask(): ProcessResources? {
-        return project.tasks.findByName(JavaPlugin.PROCESS_RESOURCES_TASK_NAME) as ProcessResources
+        return project
+                .tasks
+                .findByName(JavaPlugin.PROCESS_RESOURCES_TASK_NAME)
+                as? ProcessResources
     }
 }
 
