@@ -186,6 +186,7 @@ bintray {
     key = bintrayApiKey
 
     publications = ['plugin']
+    publish = true
 
     pkg {
         repo = 'maven'
