@@ -1,15 +1,22 @@
 language: java
 
-install: ignore
-script: ignore
+before_install:
+  - chmod +x gradlew
 
-jobs:
-  include:
-    - stage: pre_install
-      script: chmod +x gradlew
-    - stage: install
-      script: ./gradlew assemble
-    - stage: test
-      script: ./gradlew check
-    - stage: deploy
-      script: ./gradlew tasks
+before_deploy:
+  - echo "Creating release tag if necessary"
+
+deploy:
+  - provider: script
+    script: echo "Deploying to Artifactory"
+    on:
+      branch: master
+      tags: false
+  - provider: script
+    script: echo "Deploying to Bintray"
+    on:
+      branch: master
+      tags: true
+
+after_deploy:
+  - echo "Pushing tags"
