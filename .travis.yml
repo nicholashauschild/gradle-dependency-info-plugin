@@ -8,11 +8,13 @@ before_deploy:
 
 deploy:
   - provider: script
+    skip_cleanup: true
     script: echo "Deploying to Artifactory"
     on:
       branch: master
       tags: false
   - provider: script
+    skip_cleanup: true
     script: echo "Deploying to Bintray"
     on:
       branch: master
