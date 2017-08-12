@@ -1,3 +1,8 @@
+language: java
+
+install: ignore
+script: ignore
+
 jobs:
   include:
     - stage: pre_install
