@@ -1,14 +1,10 @@
-language: java
-
-before_install:
-  - chmod +x gradlew
-
 jobs:
   include:
-    - stage: install-test
-    - stage: echoText
-      install: ignore
-      script: echo "text"
-    -
-      install: ignore
-      script: echo "wow"
+    - stage: pre_install
+      script: chmod +x gradlew
+    - stage: install
+      script: ./gradlew assemble
+    - stage: test
+      script: ./gradlew check
+    - stage: deploy
+      script: ./gradlew tasks
