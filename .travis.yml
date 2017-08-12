@@ -3,6 +3,14 @@ language: java
 before_install:
   - chmod +x gradlew
 
+## Default install
+#install:
+#  - ./gradlew assemble
+
+## Default script
+#script:
+#  - ./gradlew check
+
 before_deploy:
   - echo "Creating release tag if necessary"
 

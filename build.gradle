@@ -32,7 +32,7 @@ apply plugin: 'org.junit.platform.gradle.plugin'
  */
 
 group = 'com.github.nicholashauschild'
-version = '0.4.0-SNAPSHOT'
+version = file('version.txt').text.trim()
 
 def bintrayUsername = hasProperty('bintray.username') ? project.getProperty('bintray.username') : ''
 def bintrayApiKey = hasProperty('bintray.apikey') ? project.getProperty('bintray.apikey') : ''
