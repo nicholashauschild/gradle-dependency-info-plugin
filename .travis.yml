@@ -5,9 +5,10 @@ before_install:
 
 jobs:
   include:
-    - stage: printTasks
-      script: ./gradlew tasks
+    - stage: install-test
     - stage: echoText
+      install: ignore
       script: echo "text"
     -
+      install: ignore
       script: echo "wow"
