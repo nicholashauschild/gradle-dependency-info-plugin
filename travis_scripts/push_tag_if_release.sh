@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=$(cat '../version.txt')
+version=$(cat 'version.txt')
 echo "Read version [$version] from version.txt"
 
 if ! [[ $version =~ ^.*SNAPSHOT$ ]];
