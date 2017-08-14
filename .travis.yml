@@ -13,20 +13,30 @@ before_install:
 
 before_deploy:
   - echo "Creating release tag if necessary"
+  - ./travis_scripts/tag_if_release.sh
 
 deploy:
   - provider: script
     skip_cleanup: true
-    script: echo "Deploying to Artifactory"
+    script:
+      - echo "Deploying to Artifactory"
+      - ./gradlew artifactoryPublish
     on:
       branch: master
       tags: false
   - provider: script
     skip_cleanup: true
-    script: echo "Deploying to Bintray"
+    script:
+      - echo "Deploying to Bintray"
+      - ./gradlew bintrayUpload
+      - echo "Deploying to Gradle Plugin Portal"
+      - ./gradlew publishPlugins
     on:
       branch: master
       tags: true
 
 after_deploy:
   - echo "Pushing tags"
+#  - ./travis_scripts/push_tag_if_release.sh
+  - echo "Setting next snapshot"
+#  - ./travis_scripts/set_next_snapshot.sh
