@@ -20,21 +20,17 @@ before_deploy:
 deploy:
   - provider: script
     skip_cleanup: true
-    script:
-      - echo "Deploying to Artifactory"
-      - echo "pwd $(pwd)"
-      - echo "travis dir $TRAVIS_BUILD_DIR"
-      # - ./gradlew artifactoryPublish
+    script: ./travis_scripts/artifactoryDeploy.sh
     on:
       branch: master
       tags: false
   - provider: script
     skip_cleanup: true
-    script:
-      - echo "Deploying to Bintray"
-      - ./gradlew bintrayUpload
-      - echo "Deploying to Gradle Plugin Portal"
-      - ./gradlew publishPlugins
+    script: ./travis_scripts/bintrayDeploy.sh
+#      - echo "Deploying to Bintray"
+#      - ./gradlew bintrayUpload
+#      - echo "Deploying to Gradle Plugin Portal"
+#      - ./gradlew publishPlugins
     on:
       branch: master
       tags: true
