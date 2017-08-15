@@ -20,23 +20,19 @@ before_deploy:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ./travis_scripts/artifactoryDeploy.sh
+    script: ./travis_scripts/snapshotDeploy.sh
     on:
       branch: master
       tags: false
   - provider: script
     skip_cleanup: true
-    script: ./travis_scripts/bintrayDeploy.sh
-#      - echo "Deploying to Bintray"
-#      - ./gradlew bintrayUpload
-#      - echo "Deploying to Gradle Plugin Portal"
-#      - ./gradlew publishPlugins
+    script: ./travis_scripts/releaseDeploy.sh
     on:
       branch: master
       tags: true
 
 after_deploy:
-  - echo "Pushing tags"
-#  - ./travis_scripts/push_tag_if_release.sh
-  - echo "Setting next snapshot"
-#  - ./travis_scripts/set_next_snapshot.sh
+  - echo "Pushing tags (if necessary)"
+  - ./travis_scripts/push_tag_if_release.sh
+  - echo "Setting next snapshot (if necessary)"
+  - ./travis_scripts/set_next_snapshot.sh
