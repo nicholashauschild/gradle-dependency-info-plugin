@@ -34,8 +34,8 @@ apply plugin: 'org.junit.platform.gradle.plugin'
 group = 'com.github.nicholashauschild'
 version = file('version.txt').text.trim()
 
-def bintrayUsername = hasProperty('bintray.username') ? project.getProperty('bintray.username') : ''
-def bintrayApiKey = hasProperty('bintray.apikey') ? project.getProperty('bintray.apikey') : ''
+def bintrayUsername = hasProperty('bintray_username') ? project.getProperty('bintray_username') : ''
+def bintrayApiKey = hasProperty('bintray_apikey') ? project.getProperty('bintray_apikey') : ''
 def isSnapshot = version.endsWith('SNAPSHOT')
 def isRelease = !isSnapshot
 
@@ -215,3 +215,27 @@ pluginBundle {
         }
     }
 }
+
+/**
+ * This is a workaround until the com.gradle.plugin-publish is updated to allow
+ * specifying key/secret via the pluginBundle extension.
+ *
+ * Workaround from: https://github.com/gradle/gradle/issues/1246
+ */
+
+task setupPluginUpload {
+    doLast {
+        def key=System.env.gradlePublishKey
+        def secret = System.env.gradlePublishSecret
+
+        if( !key || !secret)
+        {
+            throw new RuntimeException("gradlePublishKey and/or gradlePublishSecret are not defined environment variables")
+        }
+
+        System.properties.setProperty("gradle.publish.key", key)
+        System.properties.setProperty("gradle.publish.secret", secret)
+    }
+}
+
+tasks.publishPlugins.dependsOn tasks.setupPluginUpload
