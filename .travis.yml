@@ -23,13 +23,13 @@ deploy:
     script: ./travis_scripts/snapshotDeploy.sh
     on:
       branch: master
-      tags: false
+      condition: "$(cat 'version.txt') =~ ^.*SNAPSHOT$"
   - provider: script
     skip_cleanup: true
     script: ./travis_scripts/releaseDeploy.sh
     on:
       branch: master
-      tags: true
+      condition: "! $(cat 'version.txt') =~ ^.*SNAPSHOT$"
 
 after_deploy:
   - echo "Pushing tags (if necessary)"
