@@ -19,5 +19,5 @@ then
     # commit version.txt
     git add version.txt
     git commit -m "Updating to next snapshot: $snapshot"
-    git push
+    git push origin HEAD:master
 fi
