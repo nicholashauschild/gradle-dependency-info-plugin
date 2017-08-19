@@ -16,8 +16,12 @@ then
     # overwrite version.txt with new snapshot version
     echo "$snapshot" > 'version.txt'
 
+    # set config for push to remote
+    git config --global user.email "builds@travis-ci.com"
+    git config --global user.name "Travis CI"
+
     # commit version.txt
     git add version.txt
     git commit -m "Updating to next snapshot: $snapshot"
-    git push origin HEAD:master
+    git push -q https://$githubToken@github.com/$TRAVIS_REPO_SLUG HEAD:master
 fi
