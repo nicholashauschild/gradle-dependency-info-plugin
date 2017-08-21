@@ -102,8 +102,8 @@ open class DepInfoTask : DefaultTask() {
         val prTask = getProcessResourcesTask()
         val extDir = extension.destinationDir
         return when {
-          prTask != null -> prTask.destinationDir
           extDir != null -> extDir
+          prTask != null -> prTask.destinationDir
           else -> throw GradleException("No destinationDir determined!  You must apply the Java Plugin, or specify the property 'dependencyInfo.destinationDir'")
         }
     }
