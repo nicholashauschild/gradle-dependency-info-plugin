@@ -95,10 +95,10 @@ open class DepInfoTask : DefaultTask() {
     }
 
     internal fun getOutputFile(extension: DepInfoExtension): File {
-        return File(getDestinitionDir(extension), "dependency-info.properties")
+        return File(getDestinationDir(extension), "dependency-info.properties")
     }
 
-    internal fun getDestinitionDir(extension: DepInfoExtension): File {
+    internal fun getDestinationDir(extension: DepInfoExtension): File {
         val prTask = getProcessResourcesTask()
         val extDir = extension.destinationDir
         return when {
