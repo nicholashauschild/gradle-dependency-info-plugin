@@ -39,10 +39,10 @@ class GradleRunnerTests {
 
         assertThrows(Exception::class.java) {
             GradleRunner.create()
-                .withProjectDir(tmp)
-                .withArguments("helloworld", "--stacktrace")
-                .withPluginClasspath()
-                .build()
+                    .withProjectDir(tmp)
+                    .withArguments("helloworld", "--stacktrace")
+                    .withPluginClasspath()
+                    .build()
         }
     }
 
