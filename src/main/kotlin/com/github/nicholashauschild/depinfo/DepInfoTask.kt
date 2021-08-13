@@ -1,15 +1,15 @@
 package com.github.nicholashauschild.depinfo
 
-import java.io.File
-
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.artifacts.ResolvedArtifact
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.gradle.language.jvm.tasks.ProcessResources
+import java.io.File
 import java.io.Serializable
 
 open class DepInfoTask : DefaultTask() {
@@ -111,8 +111,7 @@ open class DepInfoTask : DefaultTask() {
     /**
      * java plugin tasks
      */
-
-    internal fun getProcessResourcesTask(): ProcessResources? {
+    @Internal internal fun getProcessResourcesTask(): ProcessResources? {
         return project
                 .tasks
                 .findByName(JavaPlugin.PROCESS_RESOURCES_TASK_NAME)
