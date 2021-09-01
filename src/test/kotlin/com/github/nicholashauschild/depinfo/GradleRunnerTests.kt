@@ -2,11 +2,10 @@ package com.github.nicholashauschild.depinfo
 
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.File
-
-import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -38,13 +37,13 @@ class GradleRunnerTests {
             task helloworld << { println 'Hello world!' }
         """.trimIndent())
 
-        assertThrows(Exception::class.java, {
+        assertThrows(Exception::class.java) {
             GradleRunner.create()
                     .withProjectDir(tmp)
                     .withArguments("helloworld", "--stacktrace")
                     .withPluginClasspath()
                     .build()
-        })
+        }
     }
 
     @Test fun test_fileCreation_useDestDir() {
